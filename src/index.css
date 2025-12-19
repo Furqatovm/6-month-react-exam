@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+*,html{
+  transition: all 0.2s linear;
+}
