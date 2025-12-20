@@ -2,7 +2,7 @@ import React from 'react'
 import { AiOutlineHome,AiOutlineUserAdd  } from "react-icons/ai";
 import { BsPersonWorkspace } from "react-icons/bs";
 import { IoPerson } from "react-icons/io5";
-import { Link, NavLink } from 'react-router-dom'
+import { Link, Navigate, NavLink } from 'react-router-dom'
 import { IoBookOutline } from "react-icons/io5";;
 import { BsPeople } from "react-icons/bs";
 import { FaMoneyBill } from "react-icons/fa";
@@ -64,7 +64,10 @@ const Sidebar = () => {
                 <CgProfile  className='text-[oklch(.216 .006 56.043)] text-[22px]' />
                 <span className='text-[oklch(.216 .006 56.043)]'>Profile</span>
             </NavLink>
-            <NavLink to={"/log-out"}  className={({isActive}) =>{return `py-2 px-2 hover:border-gray-500 border flex gap-4 items-center rounded-lg ${isActive ? "border-gray-500":"border-transparent"}`}}>
+            <NavLink onClick={() =>{
+                localStorage.clear();
+                <Navigate to={"/login"} replace />
+            }} to={"/login"}  className={({isActive}) =>{return `py-2 px-2 hover:border-gray-500 border flex gap-4 items-center rounded-lg ${isActive ? "border-gray-500":"border-transparent"}`}}>
                 <LuLogOut  className='text-[oklch(.216 .006 56.043)] text-[22px]' />
                 <span className='text-[oklch(.216 .006 56.043)]'>Chiqish</span>
             </NavLink>

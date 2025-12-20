@@ -11,14 +11,15 @@ import Payment from './components/payment'
 import Settings from './components/setting'
 import Profile from './components/profile'
 import Logout from './components/logout'
-import toast from 'react-hot-toast'
 import Login from './components/login'
+import Primary from './components/primary'
 const App = () => {
   const token =JSON.parse(localStorage.getItem("token"));
   return (
     <Routes>
       <Route path='/login' element ={<Login />} />
       <Route path='/' element={token ? <Layout />: <Navigate to={"/login"} replace />}>
+      <Route index element ={<Primary />}/>
       <Route path='/managers' element={<Managers />} />
       <Route path='/admins' element ={<Admins />} />
       <Route path='/teachers' element={<Teachers />} />

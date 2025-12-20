@@ -13,7 +13,7 @@ const Layout = () => {
         <div className=' py-2 px-4 border-b border-gray-500'>
           <Header />
         </div>
-       <div>
+       <div className='py-2 px-3'>
         <Outlet  />
         </div>
        </div>
