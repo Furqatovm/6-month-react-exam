@@ -29,6 +29,7 @@ const Login = () => {
         toast.error(`Xatolik yuz berdi ${result.message}`)
         return
       } else{
+        <Navigate to={"/"} replace/>
         toast.success("Muvaffaqiyatli tizimga kirdingiz",{
           iconTheme:{
             primary:"black",
