@@ -55,7 +55,7 @@ return (
                :
               
               data?.map((val) =>{
-                  return <tr key={val.id} className="hover:bg-gray-50">
+                  return <tr key={val._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">{val.first_name}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{val.last_name}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{val.email}</td>

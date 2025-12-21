@@ -30,21 +30,21 @@ const Admins = () => {
   },[debouncedParam])
 
 
-  const filteredData =data.filter((val) =>val.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||val.last_name.toLowerCase().includes(inputValue.toLocaleLowerCase()))
+  const filteredData =data?.filter((val) =>val.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||val.last_name.toLowerCase().includes(inputValue.toLocaleLowerCase()))
 console.log(filteredData)
 
   return (
     <div>
-    <div className="">
+    <div className="relative">
   <div className="min-w-full bg-white shadow rounded-lg">
     <div className="p-4 flex items-center justify-between ">
       <h2 className="text-lg font-semibold">Foydalanuvchilar ro'yxati</h2>
-      <div className='flex gap-4 items-center relative'>
+      <div className='flex gap-4 items-center relative max-h-10'>
         <Search value={inputValue} onChange={(e)=>setInputValue(e.target.value)} />
         <Search value={paramValue} onChange={(e) =>setParamValue(e.target.value)} />
       </div>
     </div>
-    <table className="min-w-full divide-y divide-gray-300">
+    <table className="w-full divide-y divide-gray-300">
       <thead className="">
         <tr>
           <th className="px-6 py-3 text-left text-sm font-medium text-gray-800">Ism</th>
@@ -66,7 +66,7 @@ console.log(filteredData)
              :
             
              filteredData?.length > 0? filteredData.map((val) =>{
-                return <tr key={val.id} className="hover:bg-gray-50">
+                return <tr key={val._id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">{val.first_name}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{val.last_name}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{val.email}</td>
