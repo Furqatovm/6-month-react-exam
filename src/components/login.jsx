@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Flex, Spin } from 'antd';
 
-const Login = () => {
+const Login = ({setAppToken}) => {
     const [token, setToken] = useState(null);
     const [message, setMessage] = useState("");
     const [inputValue, setinputValue] =useState("");
@@ -29,15 +29,16 @@ const Login = () => {
         toast.error(`Xatolik yuz berdi ${result.message}`)
         return
       } else{
-        <Navigate to={"/"} replace/>
         toast.success("Muvaffaqiyatli tizimga kirdingiz",{
           iconTheme:{
             primary:"black",
             secondary:"white"
           }
-        })
+        });
+
         localStorage.setItem("token", JSON.stringify(result.data.token));
         localStorage.setItem("user", JSON.stringify(result.data));
+        setAppToken(result.data.token)
       return  setRedirect(true);
       }
       
@@ -60,7 +61,7 @@ const Login = () => {
         <input type="text"  onChange={(e) =>setPassword(e.target.value)} value={password} className="py-3 p-5 rounded-md  bg-zinc-50 md:w-125 w-75 outline-gray-800"  placeholder="Enter your password" />
         <div className="flex justify-end mt-3 mb-4">
         </div>
-        <button type="submit" className="py-3 bg-gray-800 cursor-pointer text-white w-full rounded-md font-bold">{loading ?  <Spin indicator={<LoadingOutlined spin className='!text-white' />} size="big" />: "Submit"}</button>
+        <button type="submit" disabled={loading} className={`py-3 bg-gray-800  ${loading ?"cursor-not-allowed": "cursor-pointer"} text-white w-full rounded-md font-bold`}>{loading ?  <Spin indicator={<LoadingOutlined spin className='text-white! cursor-not-allowed' />} size="big" />: "Submit"}</button>
       </form>
     </div>
   </div>

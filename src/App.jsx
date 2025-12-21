@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/layout'
 import Managers from './components/home'
@@ -14,10 +14,13 @@ import Logout from './components/logout'
 import Login from './components/login'
 import Primary from './components/primary'
 const App = () => {
-  const token =JSON.parse(localStorage.getItem("token"));
+  // const token =JSON.parse(localStorage.getItem("token"));
+  const [token, setToken] =useState(()=>
+    JSON.parse(localStorage.getItem("token"))
+  );
   return (
     <Routes>
-      <Route path='/login' element ={<Login />} />
+      <Route path='/login' element ={<Login setAppToken={setToken}  />} />
       <Route path='/' element={token ? <Layout />: <Navigate to={"/login"} replace />}>
       <Route index element ={<Primary />}/>
       <Route path='/managers' element={<Managers />} />

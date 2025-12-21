@@ -5,6 +5,8 @@ import { Spin } from 'antd';
 const Primary = () => {
     const [data, setData] =useState([]);
     const [loading, setLoading] =useState(false);
+    const [menu, setMenu] = useState(true);
+    const [panel, setPanel] = useState(false);
     useEffect(()=>{
         const getData = async () => {
             setLoading(true)
@@ -24,55 +26,64 @@ const Primary = () => {
 
 
 
+return (
+    <div className="flex min-h-screen">
 
 
-  return (
-    <div>
-        <div className="overflow-x-auto">
-      <div className="min-w-full bg-white shadow rounded-lg">
-        <div className="p-4 ">
-          <h2 className="text-lg font-semibold">Foydalanuvchilar ro'yxati</h2>
+      {/* Main Content */}
+      <main className="flex-1 p-6">
+        {/* Topbar */}
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          {[
+            { title: "Total views", value: "$3.456K", percent: "0.43%" },
+            { title: "Total Profit", value: "$45.2K", percent: "4.35%" },
+            { title: "Total Product", value: "2.450", percent: "2.95%" },
+            { title: "Total Users", value: "3.456", percent: "0.95%" }
+          ].map(card => (
+            <div key={card.title} className="bg-white p-6 rounded-xl shadow">
+              <p className="text-gray-500">{card.title}</p>
+              <p className="text-2xl font-bold mt-2">{card.value}</p>
+              <p className="text-green-500">{card.percent}</p>
+            </div>
+          ))}
         </div>
-        <table className="min-w-full divide-y divide-gray-300">
-          <thead className="">
-            <tr>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-800">Ism</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-800">Familiya</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-800">Email</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-800">Rol</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-800">Holat</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-800">Amallar</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {
-                loading ?
-                <tr  className='flex items-center justify-center w-full h-full'>
-                    <td>
-                    <Spin />
-                    </td>
-                </tr>
-                 :
-                
-                data?.map((val) =>{
-                    return <tr key={val.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">{val.first_name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{val.last_name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{val.email}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{val.role}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{val.status}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button className="text-gray-500 hover:text-gray-700">•••</button>
-                    </td>
-                  </tr>
-                })
-            }
-          </tbody>
-        </table>
-      </div>
+
+        {/* Charts Placeholder */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          <div className="col-span-2 bg-white p-6 rounded-xl shadow">
+            <h2 className="font-semibold text-gray-700 mb-4">Total Revenue</h2>
+            <div className="h-64 bg-gray-100 flex items-center justify-center text-gray-400 rounded-lg">
+              Chart Placeholder
+            </div>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h2 className="font-semibold text-gray-700 mb-4">Profit this week</h2>
+            <div className="h-64 bg-gray-100 flex items-center justify-center text-gray-400 rounded-lg">
+              Chart Placeholder
+            </div>
+          </div>
+        </div>
+
+        {/* Analytics */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="font-semibold text-gray-700 mb-4">Visitors Analytics</h3>
+            <div className="h-48 bg-gray-100 flex items-center justify-center text-gray-400 rounded-lg">Chart</div>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="font-semibold text-gray-700 mb-4">Region labels</h3>
+            <div className="h-48 bg-gray-100 flex items-center justify-center text-gray-400 rounded-lg">Map</div>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow">
+            <h3 className="font-semibold text-gray-700 mb-4">Recent Posts</h3>
+            <div className="h-48 bg-gray-100 flex items-center justify-center text-gray-400 rounded-lg">Feed</div>
+          </div>
+        </div>
+      </main>
     </div>
-    </div>
-  )
+  );
 }
 
 export default Primary

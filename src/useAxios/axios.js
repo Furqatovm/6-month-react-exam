@@ -10,8 +10,8 @@ export const apiRequest = async ({ url, method = "GET", body = null, token = nul
       data: body,
       headers: {
         "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
+         Authorization: `Bearer ${token}`,
+      }
     });
     return res.data;
   } catch (err) {
