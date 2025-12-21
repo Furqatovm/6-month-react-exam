@@ -1,7 +1,7 @@
 // api.js faylida
 import axios from "axios";
 
-export const apiRequest = async ({ url, method = "GET", body = null, token = null }) => {
+export const apiRequest = async ({ url, method = "GET", body = null, token = null, params }) => {
   try {
     const token =JSON.parse(localStorage.getItem("token"));
     const res = await axios({
@@ -11,7 +11,8 @@ export const apiRequest = async ({ url, method = "GET", body = null, token = nul
       headers: {
         "Content-Type": "application/json",
          Authorization: `Bearer ${token}`,
-      }
+      },
+      params,
     });
     return res.data;
   } catch (err) {

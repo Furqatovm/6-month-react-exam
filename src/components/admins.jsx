@@ -3,24 +3,31 @@ import { apiRequest } from '../useAxios/axios';
 import Search from 'antd/es/input/Search';
 import { Alert, Button, Dropdown, Menu, Select, Skeleton, Spin } from 'antd';
 import toast from 'react-hot-toast';
+import useDebounce from './usedebounce';
 
 
 const Admins = () => {
  const [inputValue, setInputValue] =useState("");
   const [data, setData] =useState([]);
   const [loading, setLoading] =useState(false);
+  const [paramValue, setParamValue] =useState("");
+  
+  const debouncedParam =useDebounce(paramValue, 500)
   useEffect(()=>{
       const getData = async () => {
           setLoading(true)
           const result = await apiRequest({
             url: `https://${import.meta.env.VITE_BASE_URL}/api/staff/all-admins`,
+            params:{
+              status: debouncedParam,
+            }
           });
           setData(result?.data)
           setLoading(false)
       };
 
       getData();
-  },[])
+  },[debouncedParam])
 
 
   const filteredData =data.filter((val) =>val.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||val.last_name.toLowerCase().includes(inputValue.toLocaleLowerCase()))
@@ -34,6 +41,7 @@ console.log(filteredData)
       <h2 className="text-lg font-semibold">Foydalanuvchilar ro'yxati</h2>
       <div className='flex gap-4 items-center relative'>
         <Search value={inputValue} onChange={(e)=>setInputValue(e.target.value)} />
+        <Search value={paramValue} onChange={(e) =>setParamValue(e.target.value)} />
       </div>
     </div>
     <table className="min-w-full divide-y divide-gray-300">
@@ -68,7 +76,9 @@ console.log(filteredData)
                   <button className="text-gray-500 hover:text-gray-700">•••</button>
                 </td>
               </tr>
-            }):"Bunaqa ma'lumot topilmadi"
+            }): <tr>
+              <td>Bunaqa ma'lumot topilmadi</td>
+            </tr>
         }
       </tbody>
     </table>
