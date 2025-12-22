@@ -2,34 +2,58 @@ import { Button, Card, Input, Modal } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineDateRange } from "react-icons/md";
-import EditProfileModal from './modal';
 import { apiRequest } from '../useAxios/axios';
+import { Navigate, redirect } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 const Profile = () => {
 
-  const [data, setData] =useState([]);
+  const [data, setData] =useState("");
+  const [dat, setDat]= useState([]);
   const [loading, setLoading] =useState(false);
+  const [redirect, setredirect] =useState(false);
   const [open, setOpen] = useState(false);
   const [editValue, setEditValue] =useState("");
   const [family, setFamilyValue] =useState("");
     const user =JSON.parse(localStorage.getItem("user"));
   
-      const EditData = async () => {
+      const editData = async () => {
           setLoading(true)
           const result = await apiRequest({
             url: `https://${import.meta.env.VITE_BASE_URL}/api/auth/edit-profile`,
-            method:"PUT",
+            method:"POST",
             body:{
               first_name: editValue,
               last_name:family,
-              email: user.email
+              email: user.email,
             }
           });
-          setData(result.data)
-          setLoading(false);
-          console.log(result.data)
+          console.log(result);
+          setData(result.message)
+          if(result.message ==="sucsses"){
+            const updatedUser = {
+              ...user,
+              first_name: editValue,
+              last_name: family
+            };
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+            
+            toast.success("Muvaffaqiyatli o'zgartirildi");
+            setredirect(true);
+          return  
+          } else{
+            toast.error("Xatolik yuz berdi")
+            setredirect(false);
+          }
       };
+
+      if(redirect){
+        return <Navigate to={"/"} />
+      } 
+
+
+
 
 
 
@@ -69,7 +93,7 @@ const Profile = () => {
        <Input value={family} onChange={(e) => setFamilyValue(e.target.value)} />
 
        <div className='my-4 flex items-end justify-end'>
-        <Button type='primary' className='bg-black!' onClick={() =>EditData()}>
+        <Button type='primary' className='bg-black!' onClick={() =>editData()}>
           Save Changes
         </Button>
        </div>
@@ -134,7 +158,9 @@ const Profile = () => {
           <Button type='primary' className='!bg-black'>
             <span className='text-[1rem] '>Parolni o'zgartirish</span>
           </Button>
-          <Button type='primary' className='!bg-black' onClick={() =>{setOpen(true)}}>
+          <Button type='primary' className='!bg-black' onClick={() =>{setOpen(true)
+            
+          }}>
             <span className='text-[1rem] '>O'zgartirish</span>
           </Button>
         </div>
