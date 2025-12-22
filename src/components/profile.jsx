@@ -1,11 +1,38 @@
-import { Button, Card, Input } from 'antd';
-import React from 'react'
+import { Button, Card, Input, Modal } from 'antd';
+import React, { useEffect, useState } from 'react'
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineDateRange } from "react-icons/md";
+import EditProfileModal from './modal';
+import { apiRequest } from '../useAxios/axios';
 
 
 const Profile = () => {
+
+  const [data, setData] =useState([]);
+  const [loading, setLoading] =useState(false);
+  const [open, setOpen] = useState(false);
+  const [editValue, setEditValue] =useState("");
+  const [family, setFamilyValue] =useState("");
     const user =JSON.parse(localStorage.getItem("user"));
+  
+      const EditData = async () => {
+          setLoading(true)
+          const result = await apiRequest({
+            url: `https://${import.meta.env.VITE_BASE_URL}/api/auth/edit-profile`,
+            method:"PUT",
+            body:{
+              first_name: editValue,
+              last_name:family,
+              email: user.email
+            }
+          });
+          setData(result.data)
+          setLoading(false);
+          console.log(result.data)
+      };
+
+
+
     function formatDateTime(isoString) {
       const date = new Date(isoString);
     
@@ -20,6 +47,35 @@ const Profile = () => {
     console.log(user)
   return (
     <div className='flex flex-col gap-8 p-4'>
+      <Modal
+        open={open}
+        onCancel={() => setOpen(false)}
+        footer={null}
+        centered
+        width={400}
+        styles={{
+          backdropFilter: "blur(6px)",
+        }}
+      >
+        <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+
+        {/* bu yerga login yoki form qo‘yasan */}
+       <form onSubmit={(e) =>{
+        e.preventDefault()
+       }}>
+       <span className='my-1 block font-semibold text-[1rem]'>Ism</span>
+        <Input value={editValue} onChange={(e) =>setEditValue(e.target.value)} />
+       <span className='my-1 block font-semibold text-[1rem]'>Familya</span>
+       <Input value={family} onChange={(e) => setFamilyValue(e.target.value)} />
+
+       <div className='my-4 flex items-end justify-end'>
+        <Button type='primary' className='bg-black!' onClick={() =>EditData()}>
+          Save Changes
+        </Button>
+       </div>
+        
+       </form>
+      </Modal>
       <Card> 
    <div className='flex justify-between items-center'>
    <div className='flex gap-4 items-center'>
@@ -78,7 +134,7 @@ const Profile = () => {
           <Button type='primary' className='!bg-black'>
             <span className='text-[1rem] '>Parolni o'zgartirish</span>
           </Button>
-          <Button type='primary' className='!bg-black'>
+          <Button type='primary' className='!bg-black' onClick={() =>{setOpen(true)}}>
             <span className='text-[1rem] '>O'zgartirish</span>
           </Button>
         </div>
