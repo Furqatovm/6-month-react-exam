@@ -37,8 +37,9 @@ const Profile = () => {
               first_name: editValue,
               last_name: family
             };
+            console.log(result)
             localStorage.setItem("user", JSON.stringify(updatedUser));
-            
+
             toast.success("Muvaffaqiyatli o'zgartirildi");
             setredirect(true);
           return  
